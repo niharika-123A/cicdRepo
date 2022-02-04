@@ -1,0 +1,9 @@
+{
+	"name": "workDEVadf",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "8f03033a-b30b-4c0a-aee2-b03d78a42c46",
+		"tenantId": "c5ff2ec5-2303-4605-ac4f-98f70fa9d4ed"
+	}
+}

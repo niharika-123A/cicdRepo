@@ -1,0 +1,11 @@
+{
+	"name": "ls_akvDEV",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://akv-blobDEV.vault.azure.net/"
+		}
+	}
+}
