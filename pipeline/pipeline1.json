@@ -17,7 +17,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT * FROM dbo.emp WHERE createdate > @WindowStartTime AND createdate > @WindowEndTime",
+						"sqlReaderQuery": {
+							"value": "SELECT * FROM dbo.emp WHERE createdate >= pipeline().parameters.windowStartTime",
+							"type": "Expression"
+						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
