@@ -13,9 +13,27 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT * FROM dbo.emp WHERE createdate > @WindowStartTime AND createdate > @WindowEndTime",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ds_azureSQL",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
 			}
 		],
+		"parameters": {
+			"windowStartTime": {
+				"type": "string"
+			}
+		},
 		"annotations": []
 	}
 }

@@ -7,6 +7,9 @@
 			"pipelineReference": {
 				"referenceName": "pipeline1",
 				"type": "PipelineReference"
+			},
+			"parameters": {
+				"windowStartTime": "@trigger.outputs.windowStartTime"
 			}
 		},
 		"type": "TumblingWindowTrigger",
