@@ -34,7 +34,8 @@
 		],
 		"parameters": {
 			"windowStartTime": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "@trigger().outputs.windowStartTime"
 			}
 		},
 		"annotations": []
