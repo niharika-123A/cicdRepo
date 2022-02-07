@@ -54,7 +54,8 @@
 		],
 		"parameters": {
 			"windowStartTime": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "2022-02-06"
 			}
 		},
 		"annotations": []
