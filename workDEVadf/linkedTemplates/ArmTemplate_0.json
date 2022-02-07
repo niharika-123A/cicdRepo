@@ -159,7 +159,7 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "select * from emp where id=2",
+									"value": "@concat('SELECT * FROM dbo.emp WHERE createdate >=convert(datetime,''',pipeline().parameters.windowStartTime,''')')",
 									"type": "Expression"
 								},
 								"queryTimeout": "02:00:00",
@@ -180,8 +180,7 @@
 				},
 				"parameters": {
 					"windowStartTime": {
-						"type": "string",
-						"defaultValue": "abc"
+						"type": "string"
 					}
 				},
 				"annotations": []
@@ -237,7 +236,6 @@
 					"frequency": "Minute",
 					"interval": 7,
 					"startTime": "2022-02-07T09:05:00Z",
-					"endTime": "2022-02-10T19:05:00Z",
 					"delay": "00:00:00",
 					"maxConcurrency": 50,
 					"retryPolicy": {
