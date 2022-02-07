@@ -5,11 +5,17 @@
 		"factoryName": {
 			"value": "workDEVadf"
 		},
+		"ls_azureSQL_connectionString": {
+			"value": ""
+		},
 		"AzureBlobStorage1_properties_typeProperties_connectionString_secretName": {
 			"value": "kv-blobDEV"
 		},
 		"ls_akvDEV_properties_typeProperties_baseUrl": {
 			"value": "https://akv-blobDEV.vault.azure.net/"
+		},
+		"trig_tumbling_properties_pipeline_parameters_windowStartTime": {
+			"value": "@trigger().outputs.windowStartTime"
 		},
 		"containerUri": {
 			"value": ""
