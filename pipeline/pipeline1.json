@@ -3,8 +3,8 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Lookup1",
-				"type": "Lookup",
+				"name": "Copy data1",
+				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "7.00:00:00",
@@ -17,25 +17,44 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": {
-							"value": "@concat('SELECT * FROM dbo.emp WHERE createdate >=convert(datetime,''',pipeline().parameters.windowStartTime,''')')",
-							"type": "Expression"
-						},
+						"sqlReaderQuery": "@concat('SELECT * FROM dbo.emp WHERE createdate >=convert(datetime,''',pipeline().parameters.windowStartTime,''')')",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
-					"dataset": {
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
 						"referenceName": "ds_azureSQL",
 						"type": "DatasetReference"
-					},
-					"firstRowOnly": false
-				}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_sinksql",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"parameters": {
 			"windowStartTime": {
-				"type": "string",
-				"defaultValue": "@trigger().outputs.windowStartTime"
+				"type": "string"
 			}
 		},
 		"annotations": []

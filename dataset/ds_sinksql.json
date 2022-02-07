@@ -1,0 +1,16 @@
+{
+	"name": "ds_sinksql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_sinksql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "sinkemp"
+		}
+	}
+}
