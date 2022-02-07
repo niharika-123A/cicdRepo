@@ -8,6 +8,9 @@
 		"ls_azureSQL_connectionString": {
 			"value": ""
 		},
+		"ls_sinksql_connectionString": {
+			"value": ""
+		},
 		"AzureBlobStorage1_properties_typeProperties_connectionString_secretName": {
 			"value": "kv-blobDEV"
 		},
