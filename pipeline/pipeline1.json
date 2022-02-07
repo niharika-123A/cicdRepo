@@ -18,7 +18,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "select * from emp where id=2",
+							"value": "@concat('SELECT * FROM dbo.emp WHERE createdate >=''',pipeline().parameters.windowStartTime,''')')",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -34,8 +34,7 @@
 		],
 		"parameters": {
 			"windowStartTime": {
-				"type": "string",
-				"defaultValue": "abc"
+				"type": "string"
 			}
 		},
 		"annotations": []
