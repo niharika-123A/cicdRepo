@@ -1,0 +1,15 @@
+{
+	"name": "ds_Dynamics",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_DynamicsCrm",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DynamicsCrmEntity",
+		"schema": [],
+		"typeProperties": {
+			"entityName": "new_empcrm"
+		}
+	}
+}
