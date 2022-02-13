@@ -7,17 +7,49 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "workDEVadf"
 		},
+		"Office3651_servicePrincipalKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalKey' of 'Office3651'"
+		},
+		"ls_DynamicsCrm_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'ls_DynamicsCrm'"
+		},
 		"ls_azureSQL_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ls_azureSQL'"
+		},
+		"ls_binary_servicePrincipalKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalKey' of 'ls_binary'"
 		},
 		"ls_sinksql_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ls_sinksql'"
 		},
+		"Office3651_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "administrate"
+		},
+		"ls_DynamicsCrm_properties_typeProperties_username": {
+			"type": "string",
+			"defaultValue": "niharikaa@allesh.onmicrosoft.com"
+		},
 		"ls_akvDEV_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://akv-blobDEV.vault.azure.net/"
+		},
+		"ls_binary_properties_typeProperties_serviceEndpoint": {
+			"type": "string",
+			"defaultValue": "https://work2adfblob.blob.core.windows.net"
+		},
+		"ls_binary_properties_typeProperties_tenant": {
+			"type": "string",
+			"defaultValue": "c5ff2ec5-2303-4605-ac4f-98f70fa9d4ed"
+		},
+		"ls_binary_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "0b740fe8-0815-4656-b4ea-be7045bb8410"
 		},
 		"AzureBlobStorage1_properties_typeProperties_connectionString_secretName": {
 			"type": "string",
@@ -57,6 +89,45 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Office3651')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "Office365",
+				"typeProperties": {
+					"office365TenantId": "c5ff2ec5-2303-4605-ac4f-98f70fa9d4ed",
+					"servicePrincipalTenantId": "c5ff2ec5-2303-4605-ac4f-98f70fa9d4ed",
+					"servicePrincipalId": "[parameters('Office3651_properties_typeProperties_servicePrincipalId')]",
+					"servicePrincipalKey": {
+						"type": "SecureString",
+						"value": "[parameters('Office3651_servicePrincipalKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_DynamicsCrm')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "DynamicsCrm",
+				"typeProperties": {
+					"deploymentType": "Online",
+					"serviceUri": "https://org2acf9752.crm8.dynamics.com",
+					"authenticationType": "Office365",
+					"username": "[parameters('ls_DynamicsCrm_properties_typeProperties_username')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('ls_DynamicsCrm_password')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ls_akvDEV')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -83,6 +154,26 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ls_binary')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"serviceEndpoint": "[parameters('ls_binary_properties_typeProperties_serviceEndpoint')]",
+					"tenant": "[parameters('ls_binary_properties_typeProperties_tenant')]",
+					"servicePrincipalId": "[parameters('ls_binary_properties_typeProperties_servicePrincipalId')]",
+					"servicePrincipalKey": {
+						"type": "SecureString",
+						"value": "[parameters('ls_binary_servicePrincipalKey')]"
+					},
+					"accountKind": "StorageV2"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ls_sinksql')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -94,6 +185,69 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Binary1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_binary",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "output",
+						"container": "cnt"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_binary')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Office365Table1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Office3651",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Office365Table",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "BasicDataSet_v0.Contact_v0"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Office3651')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_Dynamics')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_DynamicsCrm",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DynamicsCrmEntity",
+				"schema": [],
+				"typeProperties": {
+					"entityName": "new_empcrm"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_DynamicsCrm')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ds_azureSQL')]",
@@ -133,6 +287,27 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ds_sinksql')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_sinksql",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "sinkemp"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_sinksql')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -155,28 +330,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_sinksql')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ls_sinksql",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "sinkemp"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_sinksql')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"name": "[concat(parameters('factoryName'), '/migrationSQL2CRM')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -196,7 +350,286 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
-								"sqlReaderQuery": "@concat('SELECT * FROM dbo.emp WHERE createdate >=convert(datetime,''',pipeline().parameters.windowStartTime,''')')",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "DynamicsCrmSink",
+								"writeBatchSize": 10,
+								"writeBehavior": "upsert",
+								"ignoreNullValues": true
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "id",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "new_empid",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "name",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "new_empname",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "createDate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "new_createdate",
+											"type": "DateTime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_azureSQL",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_Dynamics",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_azureSQL')]",
+				"[concat(variables('factoryId'), '/datasets/ds_Dynamics')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "Office365Source",
+								"outputColumns": [
+									{
+										"name": "AssistantName"
+									},
+									{
+										"name": "Birthday"
+									},
+									{
+										"name": "BusinessAddress"
+									},
+									{
+										"name": "BusinessHomePage"
+									},
+									{
+										"name": "BusinessPhones"
+									},
+									{
+										"name": "Categories"
+									},
+									{
+										"name": "ChangeKey"
+									},
+									{
+										"name": "Children"
+									},
+									{
+										"name": "CompanyName"
+									},
+									{
+										"name": "Department"
+									},
+									{
+										"name": "CreatedDateTime"
+									},
+									{
+										"name": "LastModifiedDateTime"
+									},
+									{
+										"name": "DisplayName"
+									},
+									{
+										"name": "EmailAddresses"
+									},
+									{
+										"name": "FileAs"
+									},
+									{
+										"name": "Generation"
+									},
+									{
+										"name": "GivenName"
+									},
+									{
+										"name": "HomeAddress"
+									},
+									{
+										"name": "HomePhones"
+									},
+									{
+										"name": "Id"
+									},
+									{
+										"name": "ImAddresses"
+									},
+									{
+										"name": "Initials"
+									},
+									{
+										"name": "JobTitle"
+									},
+									{
+										"name": "Manager"
+									},
+									{
+										"name": "MiddleName"
+									},
+									{
+										"name": "MobilePhone1"
+									},
+									{
+										"name": "NickName"
+									},
+									{
+										"name": "OfficeLocation"
+									},
+									{
+										"name": "OtherAddress"
+									},
+									{
+										"name": "ParentFolderId"
+									},
+									{
+										"name": "PersonalNotes"
+									},
+									{
+										"name": "Profession"
+									},
+									{
+										"name": "SpouseName"
+									},
+									{
+										"name": "Surname"
+									},
+									{
+										"name": "Title"
+									},
+									{
+										"name": "YomiCompanyName"
+									},
+									{
+										"name": "YomiGivenName"
+									},
+									{
+										"name": "YomiSurname"
+									}
+								]
+							},
+							"sink": {
+								"type": "BinarySink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings",
+									"copyBehavior": "PreserveHierarchy"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "Office365Table1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Binary1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Office365Table1')]",
+				"[concat(variables('factoryId'), '/datasets/Binary1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/triggerPropsPL')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "@concat('SELECT * FROM dbo.emp WHERE createdate >=convert(datetime,''',pipeline().parameters.windowStartTime,''')')",
+									"type": "Expression"
+								},
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
@@ -285,7 +718,7 @@
 				"runtimeState": "Started",
 				"pipeline": {
 					"pipelineReference": {
-						"referenceName": "pipeline1",
+						"referenceName": "triggerPropsPL",
 						"type": "PipelineReference"
 					},
 					"parameters": {
@@ -306,7 +739,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/pipeline1')]"
+				"[concat(variables('factoryId'), '/pipelines/triggerPropsPL')]"
 			]
 		}
 	]

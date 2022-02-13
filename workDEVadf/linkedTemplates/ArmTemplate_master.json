@@ -7,9 +7,21 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "workDEVadf"
 		},
+		"Office3651_servicePrincipalKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalKey' of 'Office3651'"
+		},
+		"ls_DynamicsCrm_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'ls_DynamicsCrm'"
+		},
 		"ls_azureSQL_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ls_azureSQL'"
+		},
+		"ls_binary_servicePrincipalKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalKey' of 'ls_binary'"
 		},
 		"ls_sinksql_connectionString": {
 			"type": "secureString",
@@ -19,9 +31,29 @@
 			"type": "string",
 			"defaultValue": "kv-blobDEV"
 		},
+		"Office3651_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "administrate"
+		},
+		"ls_DynamicsCrm_properties_typeProperties_username": {
+			"type": "string",
+			"defaultValue": "niharikaa@allesh.onmicrosoft.com"
+		},
 		"ls_akvDEV_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://akv-blobDEV.vault.azure.net/"
+		},
+		"ls_binary_properties_typeProperties_serviceEndpoint": {
+			"type": "string",
+			"defaultValue": "https://work2adfblob.blob.core.windows.net"
+		},
+		"ls_binary_properties_typeProperties_tenant": {
+			"type": "string",
+			"defaultValue": "c5ff2ec5-2303-4605-ac4f-98f70fa9d4ed"
+		},
+		"ls_binary_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "0b740fe8-0815-4656-b4ea-be7045bb8410"
 		},
 		"trig_tumbling_properties_pipeline_parameters_windowStartTime": {
 			"type": "string",
@@ -54,14 +86,38 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"Office3651_servicePrincipalKey": {
+						"value": "[parameters('Office3651_servicePrincipalKey')]"
+					},
+					"ls_DynamicsCrm_password": {
+						"value": "[parameters('ls_DynamicsCrm_password')]"
+					},
 					"ls_azureSQL_connectionString": {
 						"value": "[parameters('ls_azureSQL_connectionString')]"
+					},
+					"ls_binary_servicePrincipalKey": {
+						"value": "[parameters('ls_binary_servicePrincipalKey')]"
 					},
 					"ls_sinksql_connectionString": {
 						"value": "[parameters('ls_sinksql_connectionString')]"
 					},
+					"Office3651_properties_typeProperties_servicePrincipalId": {
+						"value": "[parameters('Office3651_properties_typeProperties_servicePrincipalId')]"
+					},
+					"ls_DynamicsCrm_properties_typeProperties_username": {
+						"value": "[parameters('ls_DynamicsCrm_properties_typeProperties_username')]"
+					},
 					"ls_akvDEV_properties_typeProperties_baseUrl": {
 						"value": "[parameters('ls_akvDEV_properties_typeProperties_baseUrl')]"
+					},
+					"ls_binary_properties_typeProperties_serviceEndpoint": {
+						"value": "[parameters('ls_binary_properties_typeProperties_serviceEndpoint')]"
+					},
+					"ls_binary_properties_typeProperties_tenant": {
+						"value": "[parameters('ls_binary_properties_typeProperties_tenant')]"
+					},
+					"ls_binary_properties_typeProperties_servicePrincipalId": {
+						"value": "[parameters('ls_binary_properties_typeProperties_servicePrincipalId')]"
 					},
 					"AzureBlobStorage1_properties_typeProperties_connectionString_secretName": {
 						"value": "[parameters('AzureBlobStorage1_properties_typeProperties_connectionString_secretName')]"

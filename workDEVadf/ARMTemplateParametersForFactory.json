@@ -5,7 +5,16 @@
 		"factoryName": {
 			"value": "workDEVadf"
 		},
+		"Office3651_servicePrincipalKey": {
+			"value": ""
+		},
+		"ls_DynamicsCrm_password": {
+			"value": ""
+		},
 		"ls_azureSQL_connectionString": {
+			"value": ""
+		},
+		"ls_binary_servicePrincipalKey": {
 			"value": ""
 		},
 		"ls_sinksql_connectionString": {
@@ -14,8 +23,23 @@
 		"AzureBlobStorage1_properties_typeProperties_connectionString_secretName": {
 			"value": "kv-blobDEV"
 		},
+		"Office3651_properties_typeProperties_servicePrincipalId": {
+			"value": "administrate"
+		},
+		"ls_DynamicsCrm_properties_typeProperties_username": {
+			"value": "niharikaa@allesh.onmicrosoft.com"
+		},
 		"ls_akvDEV_properties_typeProperties_baseUrl": {
 			"value": "https://akv-blobDEV.vault.azure.net/"
+		},
+		"ls_binary_properties_typeProperties_serviceEndpoint": {
+			"value": "https://work2adfblob.blob.core.windows.net"
+		},
+		"ls_binary_properties_typeProperties_tenant": {
+			"value": "c5ff2ec5-2303-4605-ac4f-98f70fa9d4ed"
+		},
+		"ls_binary_properties_typeProperties_servicePrincipalId": {
+			"value": "0b740fe8-0815-4656-b4ea-be7045bb8410"
 		},
 		"trig_tumbling_properties_pipeline_parameters_windowStartTime": {
 			"value": "@trigger().outputs.windowStartTime"
